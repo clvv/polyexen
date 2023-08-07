@@ -3,6 +3,7 @@ use num_bigint::BigUint;
 use num_traits::Zero;
 use std::collections::HashMap;
 use std::fmt::{self, Debug, Display, Write};
+use serde::{Serialize, Deserialize};
 
 pub mod backends;
 pub mod frontends;
@@ -18,7 +19,7 @@ enum CellValue<F> {
     // Poison(usize),
 }
 
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Witness {
     pub num_rows: usize,
     pub columns: Vec<ColumnWitness>,
@@ -54,7 +55,7 @@ impl Display for WitnessDisplayCSV<'_> {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ColumnWitness {
     pub name: String,
     pub aliases: Vec<String>,
@@ -74,7 +75,7 @@ impl ColumnWitness {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ColumnFixed {
     pub name: String,
     pub aliases: Vec<String>,
@@ -92,7 +93,7 @@ impl ColumnFixed {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ColumnPublic {
     pub name: String,
     pub aliases: Vec<String>,
@@ -110,7 +111,7 @@ impl ColumnPublic {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Challenge {
     pub name: String,
     pub alias: Option<String>,
@@ -130,7 +131,7 @@ impl Challenge {
     }
 }
 
-#[derive(Debug, Default, Clone)]
+#[derive(Serialize, Deserialize, Debug, Default, Clone)]
 pub struct Columns {
     /// List of witness columns.  These are called "advice" in halo2.
     pub witness: Vec<ColumnWitness>,
@@ -141,7 +142,7 @@ pub struct Columns {
 }
 
 /// Polynomial identity constraint
-#[derive(Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Poly {
     pub name: String,
     // pub query_names: HashMap<ColumnQuery, String>,
@@ -149,28 +150,28 @@ pub struct Poly {
 }
 
 /// Lookup constraint
-#[derive(Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Lookup {
     pub name: String,
     pub exps: (Vec<Expr<Var>>, Vec<Expr<Var>>),
 }
 
 /// Shuffle constraint
-#[derive(Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Shuffle {
     pub name: String,
     pub exps: (Vec<Expr<Var>>, Vec<Expr<Var>>),
 }
 
 /// Copy Constraint
-#[derive(Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CopyC {
     pub columns: (expr::Column, expr::Column),
     pub offsets: Vec<(usize, usize)>,
 }
 
 /// Circuit general information
-#[derive(Debug, Default, Clone)]
+#[derive(Serialize, Deserialize, Debug, Default, Clone)]
 pub struct Info {
     /// Field modulus / Size of the field
     pub p: BigUint,
@@ -181,13 +182,13 @@ pub struct Info {
     pub challenges: Vec<Challenge>,
 }
 
-#[derive(Debug, Default, Clone)]
+#[derive(Serialize, Deserialize, Debug, Default, Clone)]
 pub struct Metadata {
     pub query_names: Vec<(Expr<Var>, HashMap<ColumnQuery, String>)>,
 }
 
 /// Plonkish Arithmetization Format
-#[derive(Debug, Default, Clone)]
+#[derive(Serialize, Deserialize, Debug, Default, Clone)]
 pub struct Plaf {
     /// Circuit general information
     pub info: Info,

@@ -7,7 +7,7 @@ edition = "2021"
 
 [dependencies]
 # crypto-bigint = "0.4.8"
-num-bigint = { version = "0.4", features = [ "rand" ] }
+num-bigint = { version = "0.4", features = [ "rand", "serde" ] }
 num-traits = "0.2"
 num-integer = "0.1"
 rand = "0.8.5"
@@ -23,6 +23,7 @@ lazy_static = "1.4"
 halo2_proofs = { git = "https://github.com/privacy-scaling-explorations/halo2.git", features = ["circuit-params"], rev = "410bfdfa3ee9b37a990562d2f2639a4b2efe877b" }
 log = "0.4.14"
 static_assertions = "1.1.0"
+serde = { version = "1.0", features = [ "derive" ] }
 
 # [patch."https://github.com/privacy-scaling-explorations/halo2.git"]
 # halo2_proofs = { path = "../halo2/halo2_proofs" }

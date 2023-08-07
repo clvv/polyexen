@@ -14,6 +14,7 @@ use std::{
     mem,
     ops::{Add, Mul, Neg, Sub},
 };
+use serde::{Serialize, Deserialize};
 
 // trait Field: Add + Sub + Mul + Neg + Clone + Sized + Debug {
 //     fn q() -> Self;
@@ -29,7 +30,7 @@ pub trait Var: Clone + Debug + PartialEq + Eq + Hash + Ord + Display {}
 impl Var for &'static str {}
 impl Var for String {}
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 pub enum Expr<V: Var> {
     Const(BigUint),
     Var(V),
@@ -47,26 +48,26 @@ pub fn get_field_p<F: Field + PrimeField<Repr = [u8; 32]>>() -> BigUint {
     p_1 + 1u64
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub enum ColumnKind {
     Witness,
     Public,
     Fixed,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct Column {
     pub kind: ColumnKind,
     pub index: usize,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct ColumnQuery {
     pub column: Column,
     pub rotation: i32,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub enum PlonkVar {
     Query(ColumnQuery),
     Challenge { index: usize, phase: usize },
